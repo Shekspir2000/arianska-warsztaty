@@ -268,13 +268,16 @@ def render_index(selected_workshop_id=None):
         source,
         flags=re.DOTALL,
     )
+    source = re.sub(
+        r'<span class="event-pill" data-nearest-workshop>.*?</span>',
+        f'<span class="event-pill" data-nearest-workshop>Najbliższy: {html.escape(nearest_workshop()["date"])}, {html.escape(nearest_workshop()["time"])}</span>',
+        source,
+        flags=re.DOTALL,
+    )
     replacements = {
         "{{remaining_places}}": str(remaining),
         "{{limit_places}}": str(LIMIT_PLACES),
         "{{blik_phone}}": html.escape(blik_phone()),
-        "{{nearest_workshop_label}}": html.escape(
-            f'{nearest_workshop()["date"]}, {nearest_workshop()["time"]}'
-        ),
         "{{selected_workshop_id}}": html.escape(selected_workshop["id"]),
         "{{selected_workshop_label}}": html.escape(workshop_label(selected_workshop)),
         "{{selected_workshop_date}}": html.escape(selected_workshop["date"]),
