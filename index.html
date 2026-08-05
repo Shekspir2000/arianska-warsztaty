@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Warsztaty malarskie | Ariańska Selection</title>
+    <meta
+      name="description"
+      content="Terminarz warsztatów malarskich Ariańska Selection: malowanie przy winie i malowanie z kawą."
+    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="/styles.css?v=17">
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="topbar" aria-label="Główna nawigacja">
+        <a class="brand" href="/" aria-label="Ariańska Selection">
+          <img src="assets/logo-menu.png" alt="Ariańska Selection">
+        </a>
+        <div class="site-menu" aria-label="Menu strony">
+          <a class="is-active" href="/">Warsztaty</a>
+          <a href="/wynajem">Wynajem przestrzeni</a>
+        </div>
+      </nav>
+
+      <div class="hero-content" id="top">
+        <p class="eyebrow">Warsztaty malarskie</p>
+        <h1>Ariańska Selection zaprasza na warsztaty malowania przy winie i kawie</h1>
+        <p class="lead">
+          Kameralne spotkania z malarstwem, rozmową i spokojem w przestrzeni
+          Ariańska Selection przy Ariańskiej 18/1 w Krakowie.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#schedule">Zobacz terminy</a>
+          <span class="event-pill">Najbliżej: {{nearest_workshop_label}}</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="intro-section">
+        <div class="container">
+          <div class="intro-heading">
+            <p class="section-kicker section-kicker-large">O warsztatach</p>
+            <h2>Wybierz wieczór przy winie albo spokojne popołudnie z kawą.</h2>
+          </div>
+
+          <div class="workshop-types">
+            <article class="workshop-type workshop-type-dark">
+              <p class="section-kicker">Malowanie przy winie</p>
+              <h3>Klimatyczny wieczór z kolorem, rozmową i swobodą tworzenia.</h3>
+              <p>
+                Spotykamy się przy winie, aby malować, rozmawiać i pozwolić sobie
+                na chwilę relaksu. Nie chodzi o perfekcję, tylko o przyjemność
+                tworzenia, dobrą atmosferę i gotową pracę, którą zabierzesz ze sobą.
+              </p>
+            </article>
+
+            <article class="workshop-type">
+              <p class="section-kicker">Malowanie z kawą</p>
+              <h3>Malowanie z kawą w Ariańska Selection</h3>
+              <p>
+                Zwolnij na chwilę i zrób coś tylko dla siebie. Nie potrzebujesz
+                talentu ani doświadczenia - wystarczy odrobina ciekawości i chęć
+                spędzenia miłego czasu.
+              </p>
+              <p>
+                Podczas warsztatów odkryjemy, jak za pomocą kawy tworzyć subtelne,
+                wyjątkowe obrazy. W kameralnej atmosferze, przy aromacie świeżo
+                parzonej kawy, powstanie coś pięknego - i na papierze, i w głowie.
+              </p>
+            </article>
+          </div>
+
+          <div class="workshop-included" aria-label="Co na Ciebie czeka">
+            <h3>Co na Ciebie czeka?</h3>
+            <ul>
+              <li>malowanie krok po kroku,</li>
+              <li>wszystkie materiały na miejscu,</li>
+              <li>wino albo kawa i coś słodkiego,</li>
+              <li>czas na rozmowy, relaks i kreatywność,</li>
+              <li>własna praca, którą zabierzesz do domu.</li>
+            </ul>
+            <p>Zapisz się i spędź z nami wyjątkowy czas.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="photo-band" aria-label="Zdjęcia z warsztatów">
+        <img src="assets/gallery-1.jpeg" alt="Uczestniczka malująca przy sztaludze">
+        <img src="assets/gallery-2.jpeg" alt="Uczestniczka z pędzlami podczas warsztatów">
+        <img src="assets/gallery-3.jpeg" alt="Uczestniczka malująca obraz">
+      </section>
+
+      <section class="schedule-section" id="schedule">
+        <div class="container">
+          <div class="section-heading">
+            <p class="section-kicker section-kicker-large">Terminarz</p>
+            <h2>Wybierz termin warsztatów</h2>
+            <p>
+              Przy każdym spotkaniu możesz od razu przejść do rezerwacji.
+              Formularz zapamięta wybrany termin.
+            </p>
+          </div>
+
+          <div class="workshops-list">
+            {{workshops_schedule}}
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <div class="mentor-wrap">
+          <article class="mentor-panel">
+            <div class="mentor-photo">
+              <img src="assets/nika-kulis.jpeg" alt="Nika Kuliś prowadząca warsztaty">
+            </div>
+            <div>
+              <p class="section-kicker">Prowadząca</p>
+              <h2>Nika Kuliś</h2>
+              <p>
+                Nika Kuliś — artystka, malarka i absolwentka malarstwa na Akademii
+                Sztuk Pięknych im. Jana Matejki w Krakowie. Ukończyła również
+                socjologię na Uniwersytecie Pedagogicznym w Krakowie. W swojej
+                twórczości porusza temat relacji człowieka z naturą, często sięgając
+                po motywy zwierzęce, emocjonalność i symbolikę świata przyrody.
+                Łączy malarstwo, rysunek i kolaż, tworząc prace pełne wrażliwości
+                oraz refleksji. Prowadzi autorskie warsztaty malarskie, podczas
+                których pomaga uczestnikom odkrywać swobodę twórczą, kolor i
+                przyjemność płynącą z malowania.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="reservation-section" id="reservation">
+        <div class="container reservation-layout {{form_state_class}}">
+          <div class="reservation-copy">
+            <p class="section-kicker">Zapisy</p>
+            <h2>Zarezerwuj miejsce na wybrany termin</h2>
+            <p>
+              Po wysłaniu formularza otrzymasz instrukcję płatności BLIK.
+              Rezerwacja jest potwierdzona po ręcznym zaksięgowaniu płatności.
+            </p>
+            <div class="selected-workshop">
+              <span>Wybrany termin</span>
+              <strong>{{selected_workshop_label}}</strong>
+              <a href="#schedule">Zmień termin</a>
+            </div>
+            <div class="places-counter" aria-live="polite">
+              Pozostało miejsc: <strong>{{remaining_places}} z {{limit_places}}</strong>
+            </div>
+          </div>
+
+          <div class="sold-out-message">
+            <p class="section-kicker">Lista zamknięta</p>
+            <h3>Brak wolnych miejsc.</h3>
+            <p>
+              Wszystkie miejsca na warsztaty zostały już opłacone. Zostaw nam wiadomość,
+              jeśli chcesz otrzymać informację o kolejnej edycji.
+            </p>
+          </div>
+
+          <form class="signup-form" method="post" action="/signup">
+            <input type="hidden" name="workshop_id" value="{{selected_workshop_id}}">
+            <label>
+              Imię i nazwisko
+              <input name="name" autocomplete="name" required {{form_disabled}}>
+            </label>
+            <label>
+              E-mail
+              <input type="email" name="email" autocomplete="email" required {{form_disabled}}>
+            </label>
+            <label>
+              Numer telefonu
+              <input name="phone" autocomplete="tel" required {{form_disabled}}>
+            </label>
+            <label>
+              Wiadomość / uwagi
+              <textarea name="message" rows="4" {{form_disabled}}></textarea>
+            </label>
+            <label class="consent-row">
+              <input type="checkbox" name="consent" value="yes" required {{form_disabled}}>
+              <span>
+                Zapoznałam/em się z <a href="#reservation-rules">zasadami rezerwacji</a>
+                oraz <a href="#privacy-info">informacją o przetwarzaniu danych osobowych</a>.
+              </span>
+            </label>
+            <button class="button button-primary" type="submit" {{form_disabled}}>Zarezerwuj miejsce</button>
+            <p class="payment-note">
+              Płatność: BLIK na numer <strong>{{blik_phone}}</strong>, kwota 249 zł.
+            </p>
+          </form>
+        </div>
+      </section>
+
+      <section class="legal-section" id="reservation-rules">
+        <div class="container legal-grid">
+          <article class="legal-block">
+            <p class="section-kicker">Zasady rezerwacji</p>
+            <h2>Jak działa zapis i płatność</h2>
+            <ul>
+              <li>Wysłanie formularza oznacza zgłoszenie chęci udziału w warsztatach.</li>
+              <li>Przed wysłaniem formularza wybierz konkretny termin z terminarza.</li>
+              <li>Miejsce jest potwierdzone dopiero po opłaceniu udziału BLIK-iem i ręcznej weryfikacji płatności przez organizatora.</li>
+              <li>W tytule płatności wpisz imię i nazwisko podane w formularzu.</li>
+              <li>Liczba miejsc jest ograniczona do 8 opłaconych uczestników na każdy termin.</li>
+              <li>W sprawie zmiany lub anulowania rezerwacji skontaktuj się z organizatorem przed wydarzeniem.</li>
+            </ul>
+          </article>
+
+          <article class="legal-block" id="privacy-info">
+            <p class="section-kicker">Informacja RODO</p>
+            <h2>Dane osobowe</h2>
+            <p>
+              Administratorem danych jest organizator wydarzenia Ariańska Selection.
+              Dane z formularza są przetwarzane wyłącznie w celu obsługi zapisu,
+              kontaktu w sprawie warsztatów, weryfikacji płatności oraz potwierdzenia rezerwacji.
+            </p>
+            <p>
+              Podstawą przetwarzania jest podjęcie działań przed zawarciem umowy
+              i realizacja rezerwacji. Dane będą przechowywane przez czas potrzebny
+              do obsługi wydarzenia oraz wymagany przepisami księgowymi lub rozliczeniowymi.
+            </p>
+            <p>
+              Masz prawo dostępu do danych, ich sprostowania, ograniczenia przetwarzania,
+              usunięcia, przeniesienia danych oraz wniesienia skargi do Prezesa UODO.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="faq-section">
+        <div class="container narrow">
+          <div class="section-heading">
+            <p class="section-kicker">FAQ</p>
+            <h2>Najczęściej zadawane pytania</h2>
+          </div>
+
+          <div class="faq-list">
+            <details>
+              <summary>Czy muszę mieć doświadczenie w malowaniu?</summary>
+              <p>Nie. Warsztaty są przygotowane także dla osób, które malują po raz pierwszy.</p>
+            </details>
+            <details>
+              <summary>Czy materiały są w cenie?</summary>
+              <p>Tak. Na miejscu czekają materiały malarskie i przygotowane stanowisko.</p>
+            </details>
+            <details>
+              <summary>Czy mogę przyjść z koleżanką?</summary>
+              <p>Tak, warto zarezerwować miejsca wcześniej, ponieważ liczba uczestników jest ograniczona.</p>
+            </details>
+            <details>
+              <summary>Czy zabiorę obraz do domu?</summary>
+              <p>Tak. Po spotkaniu zabierasz ze sobą własny, gotowy obraz.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="final-cta">
+        <div class="container final-inner">
+          <p class="section-kicker">Terminy od sierpnia do grudnia</p>
+          <h2>Zarezerwuj swój wieczór z kolorem, winem i spokojem.</h2>
+          <a class="button button-primary" href="#schedule">Wybieram termin</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
