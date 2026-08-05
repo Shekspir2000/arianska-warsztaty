@@ -9,6 +9,7 @@ import html
 import hmac
 import mimetypes
 import os
+import re
 import secrets
 import smtplib
 import sqlite3
@@ -261,6 +262,12 @@ def render_index(selected_workshop_id=None):
     selected_workshop = workshop_by_id(selected_workshop_id)
     source = (BASE_DIR / "index.html").read_text(encoding="utf-8")
     remaining = remaining_places(selected_workshop["id"])
+    source = re.sub(
+        r"<!-- workshops_schedule:start -->.*?<!-- workshops_schedule:end -->",
+        f"<!-- workshops_schedule:start -->{render_workshops_schedule(selected_workshop['id'])}<!-- workshops_schedule:end -->",
+        source,
+        flags=re.DOTALL,
+    )
     replacements = {
         "{{remaining_places}}": str(remaining),
         "{{limit_places}}": str(LIMIT_PLACES),
@@ -268,7 +275,6 @@ def render_index(selected_workshop_id=None):
         "{{nearest_workshop_label}}": html.escape(
             f'{nearest_workshop()["date"]}, {nearest_workshop()["time"]}'
         ),
-        "{{workshops_schedule}}": render_workshops_schedule(selected_workshop["id"]),
         "{{selected_workshop_id}}": html.escape(selected_workshop["id"]),
         "{{selected_workshop_label}}": html.escape(workshop_label(selected_workshop)),
         "{{selected_workshop_date}}": html.escape(selected_workshop["date"]),
