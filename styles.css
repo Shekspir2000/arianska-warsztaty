@@ -533,7 +533,9 @@ section {
 
 .workshop-date {
   display: grid;
-  place-items: center;
+  align-content: center;
+  justify-items: center;
+  gap: 8px;
   min-height: 104px;
   border-radius: 8px;
   color: #fff;
@@ -551,8 +553,11 @@ section {
 }
 
 .workshop-date strong {
-  font-size: 0.92rem;
-  letter-spacing: 0.08em;
+  font-size: 1.08rem;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: 0.04em;
 }
 
 .workshop-info h3 {
