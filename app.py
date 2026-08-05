@@ -262,6 +262,8 @@ def render_index(selected_workshop_id=None):
     selected_workshop = workshop_by_id(selected_workshop_id)
     source = (BASE_DIR / "index.html").read_text(encoding="utf-8")
     remaining = remaining_places(selected_workshop["id"])
+    form_state_class = " is-full" if remaining <= 0 else ""
+    form_disabled = "disabled" if remaining <= 0 else ""
     source = re.sub(
         r"<!-- workshops_schedule:start -->.*?<!-- workshops_schedule:end -->",
         f"<!-- workshops_schedule:start -->{render_workshops_schedule(selected_workshop['id'])}<!-- workshops_schedule:end -->",
@@ -274,6 +276,37 @@ def render_index(selected_workshop_id=None):
         source,
         flags=re.DOTALL,
     )
+    source = re.sub(
+        r'<div class="container reservation-layout[^"]*" data-reservation-layout>',
+        f'<div class="container reservation-layout{form_state_class}" data-reservation-layout>',
+        source,
+    )
+    source = re.sub(
+        r'<strong data-selected-workshop>.*?</strong>',
+        f'<strong data-selected-workshop>{html.escape(workshop_label(selected_workshop))}</strong>',
+        source,
+        flags=re.DOTALL,
+    )
+    source = re.sub(
+        r'<div class="places-counter" data-places-counter aria-live="polite">.*?</div>',
+        f'<div class="places-counter" data-places-counter aria-live="polite">Pozostało miejsc: <strong>{remaining} z {LIMIT_PLACES}</strong></div>',
+        source,
+        flags=re.DOTALL,
+    )
+    source = re.sub(
+        r'<input type="hidden" name="workshop_id" data-workshop-id value="[^"]*">',
+        f'<input type="hidden" name="workshop_id" data-workshop-id value="{html.escape(selected_workshop["id"])}">',
+        source,
+    )
+    source = re.sub(
+        r'<strong data-blik-phone>.*?</strong>',
+        f'<strong data-blik-phone>{html.escape(blik_phone())}</strong>',
+        source,
+        flags=re.DOTALL,
+    )
+    if form_disabled:
+        source = source.replace("data-form-control>", "data-form-control disabled>")
+        source = source.replace("data-form-submit>", "data-form-submit disabled>")
     replacements = {
         "{{remaining_places}}": str(remaining),
         "{{limit_places}}": str(LIMIT_PLACES),
@@ -283,8 +316,8 @@ def render_index(selected_workshop_id=None):
         "{{selected_workshop_date}}": html.escape(selected_workshop["date"]),
         "{{selected_workshop_time}}": html.escape(selected_workshop["time"]),
         "{{selected_workshop_title}}": html.escape(selected_workshop["title"]),
-        "{{form_state_class}}": "is-full" if remaining <= 0 else "",
-        "{{form_disabled}}": "disabled" if remaining <= 0 else "",
+        "{{form_state_class}}": form_state_class.strip(),
+        "{{form_disabled}}": form_disabled,
     }
     for key, value in replacements.items():
         source = source.replace(key, value)

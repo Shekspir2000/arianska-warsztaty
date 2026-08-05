@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
       rel="stylesheet"
     >
-    <link rel="stylesheet" href="/styles.css?v=18">
+    <link rel="stylesheet" href="/styles.css?v=19">
   </head>
   <body>
     <header class="hero">
@@ -231,7 +231,7 @@
       </section>
 
       <section class="reservation-section" id="reservation">
-        <div class="container reservation-layout {{form_state_class}}">
+        <div class="container reservation-layout" data-reservation-layout>
           <div class="reservation-copy">
             <p class="section-kicker">Zapisy</p>
             <h2>Zarezerwuj miejsce na wybrany termin</h2>
@@ -241,11 +241,11 @@
             </p>
             <div class="selected-workshop">
               <span>Wybrany termin</span>
-              <strong>{{selected_workshop_label}}</strong>
+              <strong data-selected-workshop>Malowanie przy winie - 21 sierpnia, 18:30</strong>
               <a href="#schedule">Zmień termin</a>
             </div>
-            <div class="places-counter" aria-live="polite">
-              Pozostało miejsc: <strong>{{remaining_places}} z {{limit_places}}</strong>
+            <div class="places-counter" data-places-counter aria-live="polite">
+              Pozostało miejsc: <strong>8 z 8</strong>
             </div>
           </div>
 
@@ -259,33 +259,33 @@
           </div>
 
           <form class="signup-form" method="post" action="/signup">
-            <input type="hidden" name="workshop_id" value="{{selected_workshop_id}}">
+            <input type="hidden" name="workshop_id" data-workshop-id value="2026-08-21-wino">
             <label>
               Imię i nazwisko
-              <input name="name" autocomplete="name" required {{form_disabled}}>
+              <input name="name" autocomplete="name" required data-form-control>
             </label>
             <label>
               E-mail
-              <input type="email" name="email" autocomplete="email" required {{form_disabled}}>
+              <input type="email" name="email" autocomplete="email" required data-form-control>
             </label>
             <label>
               Numer telefonu
-              <input name="phone" autocomplete="tel" required {{form_disabled}}>
+              <input name="phone" autocomplete="tel" required data-form-control>
             </label>
             <label>
               Wiadomość / uwagi
-              <textarea name="message" rows="4" {{form_disabled}}></textarea>
+              <textarea name="message" rows="4" data-form-control></textarea>
             </label>
             <label class="consent-row">
-              <input type="checkbox" name="consent" value="yes" required {{form_disabled}}>
+              <input type="checkbox" name="consent" value="yes" required data-form-control>
               <span>
                 Zapoznałam/em się z <a href="#reservation-rules">zasadami rezerwacji</a>
                 oraz <a href="#privacy-info">informacją o przetwarzaniu danych osobowych</a>.
               </span>
             </label>
-            <button class="button button-primary" type="submit" {{form_disabled}}>Zarezerwuj miejsce</button>
+            <button class="button button-primary" type="submit" data-form-submit>Zarezerwuj miejsce</button>
             <p class="payment-note">
-              Płatność: BLIK na numer <strong>{{blik_phone}}</strong>, kwota 249 zł.
+              Płatność: BLIK na numer <strong data-blik-phone>podany w potwierdzeniu</strong>, kwota 249 zł.
             </p>
           </form>
         </div>
