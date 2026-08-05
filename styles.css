@@ -677,9 +677,12 @@ section {
 }
 
 .selected-workshop strong {
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: clamp(1.45rem, 3vw, 2rem);
-  line-height: 1.06;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.12;
+  letter-spacing: 0;
 }
 
 .selected-workshop a {
