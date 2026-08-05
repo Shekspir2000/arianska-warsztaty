@@ -363,5 +363,87 @@
         </div>
       </section>
     </main>
+    <script>
+      (() => {
+        const workshops = {
+          "2026-08-21-wino": {
+            label: "Malowanie przy winie - 21 sierpnia, 18:30",
+          },
+          "2026-09-11-kawa": {
+            label: "Malowanie z kawą - 11 września, 10:30",
+          },
+          "2026-09-25-wino": {
+            label: "Malowanie przy winie - 25 września, 18:30",
+          },
+          "2026-10-09-kawa": {
+            label: "Malowanie z kawą - 9 października, 10:30",
+          },
+          "2026-10-23-wino": {
+            label: "Malowanie przy winie - 23 października, 18:30",
+          },
+          "2026-11-20-wino": {
+            label: "Malowanie przy winie - 20 listopada, 18:30",
+          },
+          "2026-12-11-wino": {
+            label: "Malowanie przy winie - 11 grudnia, 18:30",
+          },
+        };
+
+        const selectedId = new URLSearchParams(window.location.search).get("workshop");
+        const selected = workshops[selectedId];
+
+        if (!selected) {
+          return;
+        }
+
+        const selectedLabel = document.querySelector("[data-selected-workshop]");
+        const hiddenInput = document.querySelector("[data-workshop-id]");
+        const placesCounter = document.querySelector("[data-places-counter]");
+        const reservationLayout = document.querySelector("[data-reservation-layout]");
+        const formControls = document.querySelectorAll("[data-form-control], [data-form-submit]");
+
+        if (selectedLabel) {
+          selectedLabel.textContent = selected.label;
+        }
+
+        if (hiddenInput) {
+          hiddenInput.value = selectedId;
+        }
+
+        document.querySelectorAll(".workshop-card").forEach((card) => {
+          card.classList.remove("is-selected");
+          const button = card.querySelector(".workshop-button");
+          if (button) {
+            button.removeAttribute("aria-current");
+          }
+        });
+
+        const selectedButton = document.querySelector(`.workshop-button[href*="workshop=${selectedId}"]`);
+        const selectedCard = selectedButton?.closest(".workshop-card");
+
+        if (selectedButton) {
+          selectedButton.setAttribute("aria-current", "true");
+        }
+
+        if (selectedCard) {
+          selectedCard.classList.add("is-selected");
+
+          const placesText = selectedCard.querySelector("small")?.textContent.trim();
+          const placesValue = placesText?.replace(/^Pozostało miejsc:\s*/, "");
+          if (placesCounter && placesValue) {
+            placesCounter.textContent = "Pozostało miejsc: ";
+            const strong = document.createElement("strong");
+            strong.textContent = placesValue;
+            placesCounter.append(strong);
+          }
+
+          const isFull = selectedCard.classList.contains("is-full");
+          reservationLayout?.classList.toggle("is-full", isFull);
+          formControls.forEach((control) => {
+            control.disabled = isFull;
+          });
+        }
+      })();
+    </script>
   </body>
 </html>
