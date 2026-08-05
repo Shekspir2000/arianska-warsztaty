@@ -542,10 +542,12 @@ section {
 }
 
 .workshop-date span {
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: 2rem;
-  font-weight: 700;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 1.78rem;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
   line-height: 1;
+  letter-spacing: 0.01em;
 }
 
 .workshop-date strong {
