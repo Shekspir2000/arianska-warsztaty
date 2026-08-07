@@ -147,11 +147,11 @@ def db_one(query, params=()):
     return rows[0] if rows else None
 
 
-def workshop_by_id(workshop_id):
+def workshop_by_id(workshop_id, fallback=None):
     for workshop in WORKSHOPS:
         if workshop["id"] == workshop_id:
             return workshop
-    return WORKSHOPS[0]
+    return fallback if fallback is not None else WORKSHOPS[0]
 
 
 def workshop_label(workshop):
@@ -169,13 +169,17 @@ def nearest_workshop():
 
 
 def paid_count(workshop_id=None):
+    return registration_count("paid", workshop_id)
+
+
+def registration_count(status, workshop_id=None):
     if workshop_id:
         row = db_one(
-            "SELECT COUNT(*) AS count FROM registrations WHERE status = 'paid' AND workshop_id = ?",
-            (workshop_id,),
+            "SELECT COUNT(*) AS count FROM registrations WHERE status = ? AND workshop_id = ?",
+            (status, workshop_id),
         )
     else:
-        row = db_one("SELECT COUNT(*) AS count FROM registrations WHERE status = 'paid'")
+        row = db_one("SELECT COUNT(*) AS count FROM registrations WHERE status = ?", (status,))
     return int(row["count"])
 
 
@@ -259,7 +263,7 @@ def render_workshops_schedule(selected_workshop_id):
 
 
 def render_index(selected_workshop_id=None):
-    selected_workshop = workshop_by_id(selected_workshop_id)
+    selected_workshop = workshop_by_id(selected_workshop_id, nearest_workshop())
     source = (BASE_DIR / "index.html").read_text(encoding="utf-8")
     remaining = remaining_places(selected_workshop["id"])
     form_state_class = " is-full" if remaining <= 0 else ""
@@ -389,9 +393,40 @@ def render_login(error=""):
 
 def render_admin(message=""):
     rows = db_rows("SELECT * FROM registrations ORDER BY created_at DESC, id DESC")
+    current_nearest = nearest_workshop()
     paid = paid_count()
-    nearest_remaining = remaining_places(WORKSHOPS[0]["id"])
+    pending = registration_count("pending")
+    nearest_remaining = remaining_places(current_nearest["id"])
     notice = f'<p class="admin-notice">{html.escape(message)}</p>' if message else ""
+    workshop_items = []
+    for workshop in WORKSHOPS:
+        workshop_paid = paid_count(workshop["id"])
+        workshop_pending = registration_count("pending", workshop["id"])
+        workshop_cancelled = registration_count("cancelled", workshop["id"])
+        workshop_remaining = remaining_places(workshop["id"])
+        is_nearest = workshop["id"] == current_nearest["id"]
+        badge = '<span class="admin-workshop-badge">Najbliższy</span>' if is_nearest else ""
+        full_class = " is-full" if workshop_remaining <= 0 else ""
+        workshop_items.append(
+            f"""
+            <article class="admin-workshop-card{full_class}">
+              <div>
+                <div class="admin-workshop-title">
+                  <h2>{html.escape(workshop["title"])}</h2>
+                  {badge}
+                </div>
+                <p>{html.escape(workshop["date"])} · {html.escape(workshop["time"])}</p>
+              </div>
+              <dl>
+                <div><dt>Oczekuje</dt><dd>{workshop_pending}</dd></div>
+                <div><dt>Opłacone</dt><dd>{workshop_paid}</dd></div>
+                <div><dt>Wolne</dt><dd>{workshop_remaining}</dd></div>
+                <div><dt>Anulowane</dt><dd>{workshop_cancelled}</dd></div>
+              </dl>
+              <a class="admin-action ghost" href="/?workshop={html.escape(workshop["id"])}#reservation">Otwórz zapis</a>
+            </article>
+            """
+        )
     items = []
     for row in rows:
         status_key = row["status"]
@@ -437,11 +472,25 @@ def render_admin(message=""):
       </header>
       <section class="admin-stats">
         <div><span>Opłacone zgłoszenia</span><strong>{paid}</strong></div>
+        <div><span>Oczekuje na płatność</span><strong>{pending}</strong></div>
         <div><span>Wolne w najbliższym terminie</span><strong>{nearest_remaining}</strong></div>
         <div><span>Cena</span><strong>{PRICE_PLN} zł</strong></div>
       </section>
       {notice}
+      <section class="admin-calendar">
+        <div class="admin-section-heading">
+          <p class="section-kicker">Terminarz warsztatów</p>
+          <h2>Kalendarz i miejsca</h2>
+        </div>
+        <div class="admin-workshops-list">
+          {''.join(workshop_items)}
+        </div>
+      </section>
       <section class="submissions-list">
+        <div class="admin-section-heading">
+          <p class="section-kicker">Zgłoszenia</p>
+          <h2>Lista rezerwacji</h2>
+        </div>
         {empty}
         {''.join(items)}
       </section>
@@ -522,7 +571,7 @@ class Handler(BaseHTTPRequestHandler):
         path = parsed_url.path
         if path == "/":
             query = parse_qs(parsed_url.query)
-            selected_workshop_id = query.get("workshop", [WORKSHOPS[0]["id"]])[0]
+            selected_workshop_id = query.get("workshop", [nearest_workshop()["id"]])[0]
             self.send_html(render_index(selected_workshop_id))
             return
         if path == "/wynajem":
@@ -560,7 +609,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def handle_signup(self):
         form = self.read_form()
-        workshop = workshop_by_id(form.get("workshop_id", WORKSHOPS[0]["id"]))
+        workshop = workshop_by_id(form.get("workshop_id", nearest_workshop()["id"]), nearest_workshop())
         if remaining_places(workshop["id"]) <= 0:
             self.send_html(render_page("Brak miejsc", sold_out_message()), status=409)
             return

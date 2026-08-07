@@ -1076,7 +1076,7 @@ details p {
 
 .admin-stats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
 }
 
@@ -1102,9 +1102,96 @@ details p {
   line-height: 1;
 }
 
+.admin-calendar,
 .submissions-list {
   display: grid;
-  gap: 14px;
+  gap: 16px;
+}
+
+.admin-section-heading {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.admin-section-heading h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+}
+
+.admin-workshops-list {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-workshop-card {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) minmax(360px, 1.4fr) 150px;
+  gap: 18px;
+  align-items: center;
+  padding: 20px;
+}
+
+.admin-workshop-card.is-full {
+  border-color: rgba(255, 87, 92, 0.36);
+}
+
+.admin-workshop-title {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.admin-workshop-title h2 {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+}
+
+.admin-workshop-card p {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.admin-workshop-badge {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  padding: 0 10px;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--coral);
+  font-size: 0.76rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.admin-workshop-card dl {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.admin-workshop-card dl div {
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--rose-pale);
+}
+
+.admin-workshop-card dt {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.admin-workshop-card dd {
+  margin: 5px 0 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .submission {
@@ -1154,6 +1241,9 @@ details p {
 }
 
 .admin-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   min-height: 42px;
   padding: 0 14px;
@@ -1163,6 +1253,7 @@ details p {
   background: var(--black);
   cursor: pointer;
   font-weight: 800;
+  text-decoration: none;
 }
 
 .admin-action.ghost {
@@ -1226,8 +1317,13 @@ details p {
   .reservation-layout,
   .legal-grid,
   .admin-stats,
+  .admin-workshop-card,
   .submission {
     grid-template-columns: 1fr;
+  }
+
+  .admin-workshop-card dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .admin-header {
